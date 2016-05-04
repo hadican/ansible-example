@@ -1,2 +1,2 @@
-role_variable: "this is the role level value"
-overriden_variable: "this is the overriden value"
+role_variable: "role level variable value"
+overriden_variable: "overriden variable value"
