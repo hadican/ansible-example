@@ -1,0 +1,8 @@
+---
+- hosts: aws
+  vars:
+    inner_variable: "inner level variable value"
+  remote_user: ubuntu
+  tasks:
+  - name: debug
+    debug: var=groupLevelVariable
