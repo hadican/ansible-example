@@ -1,0 +1,11 @@
+---
+- name: "Group Level Variable"
+  debug: var=group_variable
+- name: "Host Level Variable"
+  debug: var=host_variable
+- name: "Role Level Variable"
+  debug: var=role_variable
+- name: "Inner Variable"
+  debug: var=inner_variable
+- name: "Overriden Variable"
+  debug: var=overriden_variable
