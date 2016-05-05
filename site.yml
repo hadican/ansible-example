@@ -2,6 +2,6 @@
 - hosts: aws
   remote_user: ubuntu
   vars:
-    inner_variable: "inner level variable value"
+    inner_variable: "inner variable value"
   roles:
-    - common
+    - variable_example
