@@ -1,2 +1,2 @@
 [aws]
-52.50.124.168
+sample_host ansible_host=52.30.152.0
