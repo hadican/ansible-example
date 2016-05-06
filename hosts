@@ -1,2 +1,2 @@
 [aws]
-sample_host ansible_host=52.30.152.0
+sample_host ansible_host=52.30.152.0 ansible_user=ubuntu
