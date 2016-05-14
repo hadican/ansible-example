@@ -5,3 +5,4 @@
     inner_variable: "inner variable value"
   roles:
     - variable_example
+    - file_example

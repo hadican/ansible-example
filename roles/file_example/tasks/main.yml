@@ -1,0 +1,22 @@
+---
+# http://docs.ansible.com/ansible/copy_module.html
+- name: "Copy Shell File"
+  copy:
+    src: "pwd.sh"
+    dest: "~"
+    mode: "755"
+    owner: "ubuntu"
+    group: "ubuntu"
+    backup: yes
+  register: copy_output
+
+- name: "Execute Shell"
+  shell: "{{ copy_output.dest }}"
+
+- name: "Fetch Created File"
+  fetch:
+    src: "~/pwd.txt"
+    dest: "/tmp/fetched"
+  register: fetch_output
+
+- debug: var=fetch_output
