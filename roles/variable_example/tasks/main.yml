@@ -1,4 +1,5 @@
 ---
+# http://docs.ansible.com/ansible/playbooks_variables.html
 - name: "Group Level Variable"
   debug: var=group_variable
 - name: "Host Level Variable"

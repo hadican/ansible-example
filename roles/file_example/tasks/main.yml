@@ -1,5 +1,6 @@
 ---
 # http://docs.ansible.com/ansible/copy_module.html
+# http://docs.ansible.com/ansible/list_of_files_modules.html
 - name: "Copy Shell File"
   copy:
     src: "pwd.sh"
@@ -10,9 +11,13 @@
     backup: yes
   register: copy_output
 
+# http://docs.ansible.com/ansible/shell_module.html
+# http://docs.ansible.com/ansible/list_of_commands_modules.html
 - name: "Execute Shell"
   shell: "{{ copy_output.dest }}"
 
+# http://docs.ansible.com/ansible/fetch_module.html
+# http://docs.ansible.com/ansible/list_of_files_modules.html
 - name: "Fetch Created File"
   fetch:
     src: "~/pwd.txt"
