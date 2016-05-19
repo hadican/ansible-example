@@ -10,3 +10,5 @@
   debug: var=inner_variable
 - name: "Overriden Variable"
   debug: var=overriden_variable
+- name: "Encrypted Variable"
+  debug: var=encrypted_variable

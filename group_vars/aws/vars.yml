@@ -1,0 +1,3 @@
+group_variable: "group level variable value"
+overriden_variable: "this is the original value"
+encrypted_variable: "{{ vault_encrypted_variable }}"
