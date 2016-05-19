@@ -1,5 +1,5 @@
 ---
-- hosts: aws
+- hosts: sample_group
   remote_user: ubuntu
   vars:
     inner_variable: "inner variable value"

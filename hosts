@@ -1,2 +1,4 @@
-[aws]
+[sample_group]
 sample_host ansible_host=52.30.152.0 ansible_user=ubuntu
+[local]
+localhost

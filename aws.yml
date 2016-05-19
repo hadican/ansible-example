@@ -1,0 +1,7 @@
+---
+# http://docs.ansible.com/ansible/guide_aws.html
+- name : AWS Example
+  hosts: local
+  connection: local
+  roles:
+    - aws_example

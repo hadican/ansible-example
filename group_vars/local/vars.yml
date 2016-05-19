@@ -1,0 +1,7 @@
+aws_region: eu-west-1
+
+key_pair_name: example-key-pair
+
+ami_id: ami-f95ef58a
+vpc_id: vpc-5fb3b93a
+vpc_subnet_id: subnet-8ebf5bf8

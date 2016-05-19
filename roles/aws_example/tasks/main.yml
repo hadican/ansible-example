@@ -1,0 +1,90 @@
+---
+# http://docs.ansible.com/ansible/guide_aws.html
+# http://docs.ansible.com/ansible/list_of_cloud_modules.html
+- name: Create Key Pair
+  ec2_key:
+    name: "{{ key_pair_name }}"
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+  register: key_pair_output
+
+- name: Save Created Key Pair
+  copy:
+    content: "{{ key_pair_output.key.private_key }}"
+    dest: "roles/aws_example/files/{{ key_pair_name }}.pem"
+    mode: 0400
+  when: key_pair_output.changed
+
+- name: Create SSH Security Group
+  ec2_group:
+    name: SSH
+    description: SSH from Allowed Network
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ allowed_ip }}"
+    rules_egress:
+      - proto: all
+        from_port: 0
+        to_port: 65535
+        cidr_ip: 0.0.0.0/0
+  register: ssh_security_group_output
+
+- name: Create HTTP Security Group
+  ec2_group:
+    name: HTTP
+    description: from Allowed Network
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: "{{ allowed_ip }}"
+    rules_egress:
+      - proto: all
+        from_port: 0
+        to_port: 65535
+        cidr_ip: 0.0.0.0/0
+  register: http_security_group_output
+
+- name: Create EC2
+  ec2:
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    key_name: "{{ key_pair_name }}"
+    group_id: ["{{ ssh_security_group_output.group_id }}", "{{ http_security_group_output.group_id }}"]
+    instance_type: "{{ instance_type }}"
+    image: "{{ ami_id }}"
+    wait: yes
+    wait_timeout: 180
+    volumes:
+      - device_name: /dev/xvdf
+        volume_type: gp2
+        volume_size: 2
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    assign_public_ip: yes
+    region: "{{ aws_region }}"
+    exact_count: 1
+    count_tag: Ansible Example
+    instance_tags:
+      Name: Ansible Example
+    user_data: |
+      #!/bin/bash
+
+      # mount volume
+      mkdir /data
+      mkfs -t ext4 /dev/xvdf
+      mount /dev/xvdf /data
+  register: ec2_output
+
+- name: Print EC2 Public IP
+  debug: msg={{ ec2_output.instances[0].public_ip }}
