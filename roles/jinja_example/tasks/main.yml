@@ -1,0 +1,38 @@
+---
+# http://docs.ansible.com/ansible/playbooks_filters.html
+- name: "Print Working Directory"
+  shell: pwd
+  register: output
+  ignore_errors: true #import to cache failed cases
+
+- name: "Print Conditional Success Message"
+  debug: msg="Working directory is printed successfuly."
+  when: output|success
+
+- name: "Print Conditional Fail Message"
+  debug: msg="Working directory is not printed successfuly."
+  when: output|failed
+
+- name: "Print With Default Value"
+  debug: msg="{{ a_variabe_doest_exist | default(34) }}"
+
+- name: "Print Max Value in the List"
+  debug:
+    msg: "Max: {{ [7, 8, 34] | max }}"
+
+- name: "Print Unique List"
+  debug: msg="{{ [1, 9, 0, 5, 34, 1] | unique }}"
+
+- name: "Print a Random Value"
+  debug:
+    msg: "Random value: {{ ['GS','TR','TC'] | random }}"
+
+- name: "Check IP"
+  debug: msg="{{ '190.5.34.78' | ipv4 }}"
+
+- name: "Print XML Style Comment"
+  debug: msg="{{ 'Istanbul ulan!' | comment('xml') }}"
+
+- name: "Print Hashed Value"
+  debug:
+    msg: "Hashed value of Istanbul is: {{ 'Istanbul' | hash('md5') }}"
